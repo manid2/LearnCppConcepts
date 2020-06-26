@@ -1,15 +1,5 @@
-# Learn C++ Concepts
+# Cpp codes
 
-Code to learn and remember well tested c++ concepts.
-
-It is highly useful for future reference and code reuse.
-
-## List of concepts
-
-- vtable - virtual functions and run time polymorphism
-- threads - c++11 threads with synchronization.
-
-TODO
-
-- lamda
-- functor
+C++ code snippets for common tasks such as creating threads, using lamdas, etc.\
+This repository is also used to store newly learnt concepts and techniques.\
+Highly useful in realtime coding. Makes us faster and accurate in coding tasks.
