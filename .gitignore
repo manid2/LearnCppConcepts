@@ -26,6 +26,7 @@ build-*
 *.debug
 *.dll
 *.exe
+*.out
 *_resource.rc
 *.qm
 .DS_Store
