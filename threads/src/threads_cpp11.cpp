@@ -5,7 +5,9 @@
  *      Author: Mani Kumar
  */
 
-#include <threads_cpp11.h>
+#include "threads_cpp11.h"
+#include <chrono>
+#include <thread>
 
 namespace PFF {
 
@@ -16,6 +18,7 @@ int count = 1;
 
 void PrintOdd(int num) {
   for (int i = 0; i < num; i++) {
+    std::this_thread::sleep_for(std::chrono::seconds(5));
     std::unique_lock<std::mutex> locker(mu);
     cond.wait(locker, []() {return (count%2 == 1);});
     cout << "Thread_A: " << count << endl;
@@ -27,6 +30,7 @@ void PrintOdd(int num) {
 
 void PrintEven(int num) {
   for (int i = 0; i < num; i++) {
+    std::this_thread::sleep_for(std::chrono::seconds(5));
     std::unique_lock<std::mutex> locker(mu);
     cond.wait(locker, []() {return (count%2 == 0);});
     cout << "Thread_B: " << count << endl;
