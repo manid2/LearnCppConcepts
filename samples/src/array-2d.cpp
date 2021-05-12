@@ -1,6 +1,34 @@
 // C++ program to create and initialize 2D array
 #include <iostream>
 
+#include <errno.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <signal.h>
+
+// extern gcov flush
+extern "C" void __gcov_flush(void);
+
+/*
+ * handle signal and exit cleanly
+ */
+void sig_handler(int sig) {
+  switch(sig){
+    case SIGINT:
+    case SIGTERM:
+    case SIGUSR1:
+      printf("received signal=[%d]\n", sig);
+      break;
+    default:
+      printf("received unexpected signal=[%d]!!!\n", sig);
+      return;
+  }
+  printf("dumping gcov data files i.e. .gcda files\n");
+  __gcov_flush();
+  printf("exiting process\n");
+  _exit(sig);
+}
+
 void print2DArray(int **arr_2d, int rows, int cols)
 {
   std::cout << "2D array using array of pointers:"
@@ -31,6 +59,9 @@ void delete2DArray(int **arr_2d, int rows, int cols)
 
 int main(int argc, char **argv)
 {
+  signal(SIGINT, sig_handler); // Register SIGINT
+  signal(SIGTERM, sig_handler); // Register SIGTERM
+  signal(SIGUSR1, sig_handler); // Register SIGUSR1
   // Using array of pointers
   {
     int count = 0;
