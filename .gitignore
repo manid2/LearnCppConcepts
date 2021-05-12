@@ -27,6 +27,8 @@ build-*
 *.dll
 *.exe
 *.out
+*.gcno
+*.gcda
 *_resource.rc
 *.qm
 .DS_Store

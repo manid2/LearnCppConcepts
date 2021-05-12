@@ -1,0 +1,30 @@
+# makefile to compile single targets with long multiple options
+# Refer:
+# https://github.com/remonbonbon/makefile-example
+
+TARGET=lge_exe
+
+INCLUDES=
+SRCS=linux_gcov_env.cpp
+OBJS=$(SRCS:.cpp=.o)
+
+GCOV_OPTS=--coverage
+GRPOF_OPTS=-pg
+DEBUG_OPTS=-g
+WARN_OPTS=-Wall
+
+CXX=g++
+CXXFLAGS=$(WARN_OPTS) $(INCLUDES) $(GCOV_OPTS) $(GRPOF_OPTS) $(DEBUG_OPTS)
+LDFLAGS=$(GCOV_OPTS) $(GRPOF_OPTS) $(DEBUG_OPTS)
+
+GCOV_GEN_FILES=$(shell find . -name "*.gcno" -o -name "*.gcda" -type f)
+
+all: $(TARGET)
+
+$(TARGET): $(OBJS)
+	$(CXX) -o $@ $(OBJS) $(CXXFLAGS)
+
+.PHONY: clean
+
+clean:
+	$(RM) $(TARGET) $(OBJS) $(GCOV_GEN_FILES)
