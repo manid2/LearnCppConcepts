@@ -43,6 +43,14 @@ int main(int argc, char **argv) {
     signal(SIGINT, sig_handler); // Register SIGINT
     signal(SIGTERM, sig_handler); // Register SIGTERM
     signal(SIGUSR1, sig_handler); // Register SIGUSR1
+    /* NOTE:
+     * * Calling setenv within the test process is better than setting
+     *   environment variables in shell as it localizes the process environment
+     *   and works well when the process is started by a fork() & exec().
+     * * In case of fork() and exec() the environment variables will be same as
+     *   they are in parent process which may not be under our control.
+     * * Environment variables are copied from the shell/parent process when
+     *   the process is started and cannot be changed/added from outside it. */
     setenv("GCOV_PREFIX", get_current_dir_name(), 1);
     setenv("GCOV_PREFIX_STRIP", "6", 1);
     // add your logic here

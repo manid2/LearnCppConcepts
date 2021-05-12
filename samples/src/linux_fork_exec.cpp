@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <sys/types.h>
+#include <sys/wait.h>
 
 const char *ch_proc_name = "./lge_exe";
 
@@ -13,8 +14,18 @@ int main(int argc, char *argv[])
     if(ch_pid > 0) // parent process
     {
         printf("lfe: in parent process\n");
-        printf("lfe: process return\n");
-        return EXIT_SUCCESS;
+        //printf("lfe: process return\n");
+        //return EXIT_SUCCESS;
+        while(1) {
+            // find-why: could not redirect the below output to file.
+            sleep(5);
+            const char *gcov_prefix = getenv("GCOV_PREFIX");
+            const char *gcov_prefix_strip = getenv("GCOV_PREFIX_STRIP");
+            printf("lfe: printing environment variables, "
+                    "GCOV_PREFIX=[%s]; GCOV_PREFIX_STRIP=[%s];\n",
+                    gcov_prefix ? gcov_prefix : "",
+                    gcov_prefix_strip ? gcov_prefix_strip : "");
+        }
     }
     else if (ch_pid < 0) // error
     {
